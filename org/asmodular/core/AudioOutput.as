@@ -1,13 +1,12 @@
 package org.asmodular.core
 {
-	import __AS3__.vec.Vector;
-	
+	import flash.events.EventDispatcher;
 	import flash.events.SampleDataEvent;
 	import flash.media.Sound;
 	
 	import org.asmodular.utils.ApplicationData;
 	
-	public class AudioOutput
+	public class AudioOutput extends EventDispatcher
 	{
 		private var _appData:ApplicationData;
 		private var _numBytes:Number;
