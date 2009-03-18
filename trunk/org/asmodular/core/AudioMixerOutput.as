@@ -2,17 +2,21 @@ package org.asmodular.core
 {
 	import __AS3__.vec.Vector;
 	
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import flash.events.SampleDataEvent;
 	import flash.media.Sound;
+	import flash.media.SoundChannel;
 	import flash.utils.ByteArray;
 	
 	import org.asmodular.utils.ApplicationData;
 	
-	public class AudioMixerOutput
+	public class AudioMixerOutput extends EventDispatcher
 	{
 		private var _appData:ApplicationData;
 		private var _numBytes:Number;
 		private var _soundObject:Sound;
+		private var _channel:SoundChannel;
 		private var _sources:Vector.<AudioObject>;
 		private var _datas:Vector.<ByteArray>;
 		
@@ -32,7 +36,11 @@ package org.asmodular.core
 		
 		public function play():void
 		{
-			if ( _sources.length ) _soundObject.play();
+			if ( _sources.length ) 
+			{
+				_channel = _soundObject.play();
+				_channel.addEventListener( Event.SOUND_COMPLETE, onSoundComplete );
+			}
 		}
 
 		private function onSampleData( event:SampleDataEvent ):void
@@ -62,6 +70,11 @@ package org.asmodular.core
 				event.data.writeFloat( o );
 				event.data.writeFloat( o );
 			}
+		}
+		
+		private function onSoundComplete( event:Event = null ):void
+		{
+			trace('sound complete');
 		}
 
 	}

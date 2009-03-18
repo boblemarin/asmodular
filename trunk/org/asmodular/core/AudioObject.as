@@ -11,6 +11,8 @@ package org.asmodular.core
 		protected var _appData:ApplicationData;
 		protected var _bufferSize:int;
 		protected var _outputData:ByteArray;
+		protected var _source:AudioObject;
+		protected var _sourceData:ByteArray;
 		
 		public function AudioObject()
 		{
@@ -22,14 +24,64 @@ package org.asmodular.core
 		
 		protected function init():void
 		{
-			trace("init in AudioObject");
+			
 		}
 
+		/**
+		 * adds an AudioObject as source for the current object. 
+		 * 
+		 * @param source
+		 * @param name
+		 * 
+		 */		
+		
+		public function addSource( p_source:AudioObject, p_name:String = '' ):void
+		{
+			_source = p_source;
+		}
+		
+		/**
+		 * removeSource 
+		 * @param name
+		 * 
+		 */		
+		
+		public function removeSource( p_name:String = '' ):void
+		{
+			_source = null;
+		}
+
+
+		/**
+		 * ask the AudioObject for audio data.
+		 *  
+		 * @param p_name
+		 * @return A byte array containing the computed data
+		 * 
+		 */
 		public function getData( p_name:String = '' ):ByteArray
 		{
-			trace("geData in AudioObject :/");
-			return new ByteArray();
+			if ( _source )
+			{
+				_sourceData = _source.getData();
+				_sourceData.position = 0;
+				_outputData.clear();
+				computeData();
+				return _outputData
+			}
+			else
+			{
+				// no source set, sending silence
+				return _appData.silenceBytes;
+			}
+			
 		}
+		
+		protected function computeData():void
+		{
+			
+		}
+
 
 	}
 	

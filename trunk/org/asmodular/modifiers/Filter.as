@@ -10,7 +10,6 @@ package org.asmodular.modifiers
 		public static const HIGH_PASS:String = 'highPass';
 		public static const BAND_PASS:String = 'bandPass';
 		
-		private var _source:AudioObject;
 		private var _low:Number;
 		private var _high:Number;
 		private var _band:Number;
@@ -35,33 +34,6 @@ package org.asmodular.modifiers
 			_scale = _q = 0.1;
 			updateValues();
 		}
-		
-		
-		/**
-		 * addSource
-		 * 
-		 * @param source
-		 * @param name
-		 * 
-		 */		
-		
-		public function addSource( p_source:AudioObject, p_name:String = '' ):void
-		{
-			_source = p_source;
-		}
-		
-		/**
-		 * removeSource 
-		 * @param name
-		 * 
-		 */		
-		
-		public function removeSource( p_name:String = '' ):void
-		{
-			_source = null;
-		}
-		
-		
 		
 		
 		/**
@@ -96,10 +68,11 @@ package org.asmodular.modifiers
 		public function set resonance( p_res:Number ):void
 		{
 			_q = 1 - p_res;
-			if ( _q <= 0 ) _q = .01;
+			if ( _q < .1 ) _q = .1;
 			if ( _q > 1 ) _q = 1;
 			_scale = Math.sqrt( _q );
-			trace('_q='+_q+'\t $$$ _scale='+_scale);
+			//trace( p_res  +' > ' + _q + ' > ' + _scale );
+			//trace('_q='+_q+'\t $$$ _scale='+_scale);
 		}
 		
 		public function get resonance():Number
@@ -118,7 +91,7 @@ package org.asmodular.modifiers
 		public function set mode( p_mode:String ):void
 		{
 			_filterMode = p_mode;
-			updateValues();
+			// updateValues();
 		}
 		
 		public function get mode():String
@@ -131,10 +104,8 @@ package org.asmodular.modifiers
 		
 		private function updateValues():void
 		{
-			var c:Number;
-			
-			_f = 2 * Math.sin( Math.PI * ( _freq * _appData.sampleRate / 4 ) / _appData.sampleRate );
-			
+			// var c:Number;
+			_f = 2 * Math.sin( Math.PI * ( _freq * _appData.sampleRate / 4 ) / _appData.sampleRate );	
 		}
 				
 		override public function getData( p_name:String = '' ):ByteArray
