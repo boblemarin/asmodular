@@ -12,6 +12,7 @@ package org.asmodular.core
 		protected var _bufferSize:int;
 		protected var _outputData:ByteArray;
 		protected var _source:AudioObject;
+		protected var _sourceName:String;
 		protected var _sourceData:ByteArray;
 		
 		public function AudioObject()
@@ -38,6 +39,7 @@ package org.asmodular.core
 		public function addSource( p_source:AudioObject, p_name:String = '' ):void
 		{
 			_source = p_source;
+			_sourceName = p_name;
 		}
 		
 		/**
